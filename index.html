@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nitu - The Best Babe 💖</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #a8e6cf 0%, #dcedc1 40%, #ffd3b6 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      color: #4a4a4a;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: #ff6b6b;
+      text-shadow: 2px 2px 0px #fff;
+    }
+
+    p.subtitle {
+      font-size: 1.1rem;
+      color: #556270;
+    }
+
+    /* Pond Container */
+    .pond {
+      width: 320px;
+      height: 320px;
+      background: linear-gradient(135deg, #74ebe5 0%, #89f7fe 100%);
+      border: 8px solid #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    /* Water Ripples */
+    .ripple {
+      position: absolute;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      animation: rippleAnim 3s infinite linear;
+    }
+
+    @keyframes rippleAnim {
+      0% { width: 20px; height: 20px; opacity: 1; }
+      100% { width: 280px; height: 280px; opacity: 0; }
+    }
+
+    /* Fishing Bobber */
+    .bobber {
+      width: 24px;
+      height: 24px;
+      background: radial-gradient(circle at 50% 30%, #ff4b4b 50%, #ffffff 51%);
+      border-radius: 50%;
+      border: 2px solid #333;
+      position: absolute;
+      display: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    }
+
+    .bobber.waiting {
+      display: block;
+      animation: float 1.5s ease-in-out infinite;
+    }
+
+    .bobber.bite {
+      display: block;
+      animation: splash 0.2s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes splash {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(2px, 4px); }
+      100% { transform: translate(-2px, 0); }
+    }
+
+    /* Controls & Status */
+    .controls {
+      margin-top: 25px;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .btn {
+      background: #ff8b94;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 6px 0px #ff6b6b;
+      transition: all 0.1s ease;
+    }
+
+    .btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0px #ff6b6b;
+    }
+
+    .status {
+      margin-top: 12px;
+      font-weight: 700;
+      color: #4a4a4a;
+    }
+
+    /* Catch Modal */
+    .modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 24px;
+      text-align: center;
+      max-width: 320px;
+      width: 85%;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      transform: scale(0.8);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal.active .modal-card {
+      transform: scale(1);
+    }
+
+    .fish-icon {
+      font-size: 4rem;
+      margin-bottom: 10px;
+    }
+
+    .modal-card h2 {
+      color: #ff6b6b;
+      margin-bottom: 8px;
+    }
+
+    .modal-card p {
+      font-size: 1.05rem;
+      color: #666;
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+
+    /* Floating Hearts */
+    .heart {
+      position: absolute;
+      color: #ff6b6b;
+      font-size: 1.5rem;
+      pointer-events: none;
+      animation: floatUp 2s linear forwards;
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Nitu, The Best Babe 💕</h1>
+    <p class="subtitle">Cast a line into the cozy pond!</p>
+  </header>
+
+  <div class="pond" id="pond">
+    <div class="ripple" style="animation-delay: 0s;"></div>
+    <div class="ripple" style="animation-delay: 1s;"></div>
+    <div class="ripple" style="animation-delay: 2s;"></div>
+    <div class="bobber" id="bobber"></div>
+  </div>
+
+  <div class="controls">
+    <button class="btn" id="actionBtn">Cast Line 🎣</button>
+    <div class="status" id="statusText">Press button to start fishing!</div>
+  </div>
+
+  <!-- Popup Card -->
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <div class="fish-icon" id="fishIcon">🐟</div>
+      <h2 id="catchTitle">You Caught Something!</h2>
+      <p id="catchMessage">Message goes here...</p>
+      <button class="btn" id="closeBtn">Keep Fishing 💖</button>
+    </div>
+  </div>
+
+  <script>
+    // Customizable messages and fish types!
+    const loveNotes = [
+      { icon: "🐠", title: "Golden Starfish", text: "Nitu, you light up every room you walk into! Best babe ever." },
+      { icon: "🌸", title: "Lily", text: "Just a gentle reminder: you are loved more than words can say!" },
+      { icon: "💌", title: "Secret Love Letter", text: "I'm so lucky to have you in my life. Altough u try to annoy me sometimes and fail!" },
+      { icon: "✨", title: "Shimmering Guppy", text: "You have the cutest smile in the entire universe and cutest eyes too and cutest lips, and stuffs gotta think about more words." },
+      { icon: "👑", title: "Crown Jellyfish", text: "Treating you like the queen you are today and every day or maybe not but I love you ngl!" }
+    ];
+
+    let gameState = 'IDLE'; // IDLE, WAITING, Biting
+    let biteTimeout;
+
+    const actionBtn = document.getElementById('actionBtn');
+    const statusText = document.getElementById('statusText');
+    const bobber = document.getElementById('bobber');
+    const modal = document.getElementById('modal');
+    const catchTitle = document.getElementById('catchTitle');
+    const catchMessage = document.getElementById('catchMessage');
+    const fishIcon = document.getElementById('fishIcon');
+    const closeBtn = document.getElementById('closeBtn');
+
+    actionBtn.addEventListener('click', () => {
+      if (gameState === 'IDLE') {
+        startFishing();
+      } else if (gameState === 'WAITING') {
+        // Reeled in too early!
+        clearTimeout(biteTimeout);
+        statusText.innerText = "Too early! The fish swam away 💨";
+        resetGame();
+      } else if (gameState === 'BITING') {
+        // Success catch!
+        reelIn();
+      }
+    });
+
+    function startFishing() {
+      gameState = 'WAITING';
+      actionBtn.innerText = "Reel In! 🎣";
+      statusText.innerText = "Waiting for a bite...";
+      bobber.className = 'bobber waiting';
+
+      // Random wait time between 2 and 4.5 seconds
+      const waitTime = Math.random() * 2500 + 2000;
+
+      biteTimeout = setTimeout(() => {
+        gameState = 'BITING';
+        bobber.className = 'bobber bite';
+        statusText.innerText = "BITING! CLICK REEL NOW!! 🌟";
+      }, waitTime);
+    }
+
+    function reelIn() {
+      gameState = 'IDLE';
+      bobber.className = 'bobber';
+      
+      // Select random love note
+      const note = loveNotes[Math.floor(Math.random() * loveNotes.length)];
+      fishIcon.innerText = note.icon;
+      catchTitle.innerText = note.title;
+      catchMessage.innerText = note.text;
+
+      createHearts();
+      modal.classList.add('active');
+    }
+
+    function resetGame() {
+      gameState = 'IDLE';
+      bobber.className = 'bobber';
+      actionBtn.innerText = "Cast Line 🎣";
+    }
+
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+      resetGame();
+      statusText.innerText = "Cast again for another surprise!";
+    });
+
+    function createHearts() {
+      for(let i = 0; i < 8; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.classList.add('heart');
+          heart.innerHTML = '💖';
+          heart.style.left = (Math.random() * 80 + 10) + 'vw';
+          heart.style.top = '70vh';
+          document.body.appendChild(heart);
+
+          setTimeout(() => heart.remove(), 2000);
+        }, i * 150);
+      }
+    }
+  </script>
+</body>
+</html>
